@@ -15,6 +15,6 @@ Stack.prototype.push = function(element) {
   return this.data.push(element);
 };
 
-Stack.prototype.size = function(element) {
+Stack.prototype.size = function() {
   return this.data.length;
 };

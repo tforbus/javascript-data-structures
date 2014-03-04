@@ -14,6 +14,6 @@ Queue.prototype.push = function(element) {
   return this.data.push(element);
 };
 
-Queue.prototype.size = function(element) {
+Queue.prototype.size = function() {
   return this.data.length;
 };
