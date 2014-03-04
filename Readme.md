@@ -7,27 +7,26 @@ A collection of data structures written in JavaScript.
 Some data structures require a way to compare elements. Right now, these data 
 structures are:
 - Heap
+- BinarySearchTree
 
-In order to use it, you'll need to create an instance of the data structure 
+In order to use them, you will need to create an instance of the data structure 
 like this:
 
 ```javascript
 var heap = new Heap({
     compare: function(el1, el2) {
-        var compare = {
+        var comparison = {
             GREATER_THAN: false,
             EQUAL: false,
             LESS_THAN: false
         };
-        if (el1 < el2) compare.LESS_THAN = true;
-        else if (el1 > el2) compare.GREATER_THAN = true;
-        else compare.EQUAL = true;
-        return compare;
+        if (el1 < el2) comparison.LESS_THAN = true;
+        else if (el1 > el2) comparison.GREATER_THAN = true;
+        else comparison.EQUAL = true;
+        return comparison;
     }
 });
 ```
-Why? Because these data structures should store homogenous data, and who knows 
-what sort of stuff you'll be throwing in there.
-
-compare() must return an object with the properties GREATER_THAN, EQUAL, 
-and LESS_THAN.
+The compare() function is necessary so the data structure knows how to compare 
+the data types stored within it. compare() must return an object with the 
+properties GREATER_THAN, EQUAL and LESS_THAN.
