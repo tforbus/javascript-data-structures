@@ -14,11 +14,6 @@ function heapCompare(el1, el2) {
   return obj;
 }
 
-
-test('throw error if no compare function', function (assert) {
-  assert.throws(function() { new Heap(); }, 'threw an error');
-});
-
 test('data is empty upon initialization', function (assert) {
   var heap = new Heap({
     compare: function(el1, el2) { /* empty */ }

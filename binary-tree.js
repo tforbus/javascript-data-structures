@@ -1,12 +1,31 @@
 function BinarySearchTree(options) {
-  if (!options) {
-    throw 'You must specify compare(element1, element2)!';
-  }
-
   this.data = [];
   this.size = 0;
-  this.__compareElements = options.compare;
+  
+  if (options.compare) {
+    this.__compareElements = options.compare;
+  }
 }
+
+
+/**
+ * Override this by passing in a compare(el1, el2) into the BST 
+ * constructor.
+ * This works for numbers and strings.
+ */
+BinarySearchTree.prototype.__compareElements = function(el1, el2) {
+  var comparison = {
+    GREATER_THAN: false,
+    EQUAL: false,
+    LESS_THAN: false
+  };
+
+  if (el1 < el2) comparison.LESS_THAN = true;
+  else if (el1 > el2) comparison.GREATER_THAN = true;
+  else comparison.EQUAL = true;
+  return comparison;
+};
+
 
 BinarySearchTree.prototype.insert = function(element) {
   if (this.data.length === 0) {
@@ -38,6 +57,7 @@ BinarySearchTree.prototype.insert = function(element) {
   }
 };
 
+
 /**
  * If withIndex (true/false) is supplied (as a truthy value), the item 
  * returned is an object with the properties value and index.
@@ -68,6 +88,7 @@ BinarySearchTree.prototype.find = function(element, withIndex) {
   }
 };
 
+
 BinarySearchTree.prototype.remove = function(element) {
   var place = this.find(element, true),
       nChildren = 0,
@@ -85,6 +106,7 @@ BinarySearchTree.prototype.remove = function(element) {
   }
 };
 
+
 BinarySearchTree.prototype.__minimumInTree = function(startIndex) {
   var childrenIndex = this.__childIndex(startIndex),
       leftChildIndex = childrenIndex.left;
@@ -100,6 +122,7 @@ BinarySearchTree.prototype.__removeLeaf = function(atIndex) {
   return this.data.splice(atIndex, 1)[0];
 };
 
+
 BinarySearchTree.prototype.__removeWithOneSubtree = function(atIndex) {
   var children = this.__childIndex(atIndex),
       childIndex = this.data[children.left] ? children.left : children.right,
@@ -110,6 +133,7 @@ BinarySearchTree.prototype.__removeWithOneSubtree = function(atIndex) {
 
   return deletedValue;
 };
+
 
 BinarySearchTree.prototype.__removeWithTwoSubtrees = function(atIndex) {
   var children = this.__childIndex(atIndex),
@@ -133,6 +157,7 @@ BinarySearchTree.prototype.__childIndex = function(ofIndex) {
     right: 2 * ofIndex + 2
   };
 };
+
 
 BinarySearchTree.prototype.__numberOfChildren = function(ofIndex) {
   var children = this.__childIndex(ofIndex),

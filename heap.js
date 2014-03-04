@@ -9,13 +9,12 @@
  *  This object says if el1 is >, =, or < el2.
  */
 function Heap(options) {
-  if (!options) {
-    throw 'You must specify compare(element1, element2)!';
-  }
-
   this.data = [];
   this.type = 'max';
-  this.__compareElements = options.compare;
+
+  if (options.compare) {
+    this.__compareElements = options.compare;
+  }
   
   if (options.type) {
     if (options.type === 'min') {
@@ -24,16 +23,37 @@ function Heap(options) {
   }
 }
 
+
+/**
+ * Override this by passing in a compare(el1, el2) into the Heap constructor.
+ * This works for numbers and strings.
+ */
+Heap.prototype.__compareElements = function(el1, el2) {
+  var comparison = {
+    GREATER_THAN: false,
+    EQUAL: false,
+    LESS_THAN: false
+  };
+
+  if (el1 < el2) comparison.LESS_THAN = true;
+  else if (el1 > el2) comparison.GREATER_THAN = true;
+  else comparison.EQUAL = true;
+  return comparison;
+};
+
+
 Heap.prototype.insert = function(element) {
   this.data.push(element);
   this.__heapify();
   return element;
 };
 
+
 Heap.prototype.peek = function() {
   if (this.data.length > 0) return this.data[0];
   return null;
 };
+
 
 Heap.prototype.pop = function() {
   if (this.data.length === 0) return null;
@@ -47,13 +67,16 @@ Heap.prototype.pop = function() {
   return popped;
 };
 
+
 Heap.prototype.size = function() {
   return this.data.length;
 };
 
+
 Heap.prototype.clear = function() {
     this.data = [];
 };
+
 
 /**
  * heapify() works elements from the bottom up.
@@ -70,6 +93,7 @@ Heap.prototype.__heapify = function() {
     params.parentIndex = this.__parentIndex(params.childIndex);
   }
 };
+
 
 /**
  * percolate() works elements from the top down.
@@ -88,6 +112,7 @@ Heap.prototype.__percolate = function() {
     params.childIndex = this.__percolateWithChildIndex(params.parentIndex);
   }
 };
+
 
 Heap.prototype.__childIndex = function(ofIndex) {
   return {
@@ -161,16 +186,3 @@ Heap.prototype.__isOutOfOrder = function(params) {
   if (this.type === 'max' && firstLessThanSecond) return true;
   return false;
 };
-
-
-/** Example heap storing numbers */
-var h = new Heap({
-  type: 'min',
-  compare: function(el1, el2) {
-    var comparison = {LESS_THAN: false, EQUAL: false, GREATER_THAN: false};
-    if (el1 === el2) comparison.EQUAL = true;
-    else if (el1 < el2) comparison.LESS_THAN = true;
-    else comparison.GREATER_THAN = true;
-    return comparison;
-  }
-});

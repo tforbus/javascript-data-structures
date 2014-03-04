@@ -9,8 +9,9 @@ structures are:
 - Heap
 - BinarySearchTree
 
-In order to use them, you will need to create an instance of the data structure 
-like this:
+If you plan on storing just numbers or strings in these, you won't need to 
+specify your own comparison function. Otherwise, you'll need to initialize the 
+data structure like this (though this example is intended to compare numbers)
 
 ```javascript
 var heap = new Heap({
@@ -27,6 +28,7 @@ var heap = new Heap({
     }
 });
 ```
-The compare() function is necessary so the data structure knows how to compare 
-the data types stored within it. compare() must return an object with the 
-properties GREATER_THAN, EQUAL and LESS_THAN.
+If you're storing non-primitives, the compare() function is necessary so the 
+data structure knows how to compare the data types stored within it.
+compare() must return an object with the properties GREATER_THAN, EQUAL 
+and LESS_THAN.

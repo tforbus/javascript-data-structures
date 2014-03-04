@@ -14,10 +14,6 @@ function treeCompare(el1, el2) {
   return obj;
 }
 
-test('throw error if no compare function', function (assert) {
-  assert.throws(function() { new BinarySearchTree(); }, 'threw an error');
-});
-
 test('size is empty on initialize', function (assert) {
   var tree = new BinarySearchTree({compare: treeCompare});
   assert.equal(tree.data.length, 0);
