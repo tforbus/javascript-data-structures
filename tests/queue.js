@@ -5,6 +5,14 @@ test('popping empty queue returns null', function (assert) {
   assert.equal(q.pop(), null);
 });
 
+test('peek is first element', function (assert) {
+  var q = new Queue();
+  q.push(1);
+  q.push(2);
+  q.push(3);
+  assert.equal(q.peek(), 1);
+});
+
 test('pushing grows queue', function (assert) {
   var q = new Queue();
   q.push(1);
