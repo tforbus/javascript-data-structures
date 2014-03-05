@@ -8,22 +8,8 @@ function BinarySearchTree(options) {
 }
 
 
-/**
- * Override this by passing in a compare(el1, el2) into the BST 
- * constructor.
- * This works for numbers and strings.
- */
-BinarySearchTree.prototype.__compareElements = function(el1, el2) {
-  var comparison = {
-    GREATER_THAN: false,
-    EQUAL: false,
-    LESS_THAN: false
-  };
-
-  if (el1 < el2) comparison.LESS_THAN = true;
-  else if (el1 > el2) comparison.GREATER_THAN = true;
-  else comparison.EQUAL = true;
-  return comparison;
+BinarySearchTree.prototype.__compareElements = function(a, b) {
+  return a - b;
 };
 
 
@@ -39,14 +25,14 @@ BinarySearchTree.prototype.insert = function(element) {
     var comparison = this.__compareElements(element, this.data[currentIndex]),
         children = this.__childIndex(currentIndex);
 
-    if (comparison.LESS_THAN) {
+    if (comparison < 0) {
       if (!this.data[children.left]) {
         this.data[children.left] = element;
         return element;
       } else { currentIndex = children.left; }
     }
 
-    else if (comparison.GREATER_THAN) {
+    else if (comparison > 0) {
       if (!this.data[children.right]) {
         this.data[children.right] = element;
         return element;
@@ -71,12 +57,12 @@ BinarySearchTree.prototype.find = function(element, withIndex) {
     var comparison = this.__compareElements(element, this.data[currentIndex]),
         children = this.__childIndex(currentIndex);
 
-    if (comparison.LESS_THAN) {
+    if (comparison < 0) {
       if (!this.data[children.left]) return null;
       else currentIndex = children.left;
     }
 
-    else if (comparison.GREATER_THAN) {
+    else if (comparison > 0) {
       if (!this.data[children.right]) return null;
       else currentIndex = children.right;
     }
@@ -117,6 +103,8 @@ BinarySearchTree.prototype.__minimumInTree = function(startIndex) {
 
   return this.__minimumInTree(leftChildIndex);
 };
+
+
 BinarySearchTree.prototype.__removeLeaf = function(atIndex) {
   // returns the removed value
   return this.data.splice(atIndex, 1)[0];

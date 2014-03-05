@@ -1,13 +1,3 @@
-/**
- * To use the heap, you must specify at least a compare() function in the 
- * options.
- *
- * COMPARE SPECIFICATIONS:
- * compare takes 2 elements (el1 and el2)
- * compare returns an object with the format:
- *  {GREATER_THAN: false/true, EQUAL: false/true, LESS_THAN: false/true}
- *  This object says if el1 is >, =, or < el2.
- */
 function Heap(options) {
   this.data = [];
   this.type = 'max';
@@ -25,20 +15,12 @@ function Heap(options) {
 
 
 /**
- * Override this by passing in a compare(el1, el2) into the Heap constructor.
- * This works for numbers and strings.
+ * -1: a < b
+ *  0: a == b
+ *  1: a > b
  */
-Heap.prototype.__compareElements = function(el1, el2) {
-  var comparison = {
-    GREATER_THAN: false,
-    EQUAL: false,
-    LESS_THAN: false
-  };
-
-  if (el1 < el2) comparison.LESS_THAN = true;
-  else if (el1 > el2) comparison.GREATER_THAN = true;
-  else comparison.EQUAL = true;
-  return comparison;
+Heap.prototype.__compareElements = function(a, b) {
+  return a - b;
 };
 
 
@@ -148,11 +130,9 @@ Heap.prototype.__percolateWithChildIndex = function(ofIndex) {
   
   // need the smaller child.
   if (this.type === 'min') {
-    if (comparison.GREATER_THAN) childSwapIndex = kids.right;
-    else childSwapIndex = kids.left;
+    childSwapIndex = comparison > 0 ? kids.right : kids.left;
   } else {
-    if (comparison.LESS_THAN) childSwapIndex = kids.right;
-    else childSwapIndex = kids.left;
+    childSwapIndex = comparison < 0 ? kids.right : kids.left;
   }
   
   return childSwapIndex;
@@ -178,11 +158,15 @@ Heap.prototype.__swapIndeces = function(index1, index2) {
 Heap.prototype.__isOutOfOrder = function(params) {
   var parent = this.data[params.parentIndex],
       child = this.data[params.childIndex],
-      comparison = this.__compareElements(parent, child);
-  if (comparison.EQUAL) return false;
-  
-  var firstLessThanSecond = comparison.LESS_THAN;
-  if (this.type === 'min' && !firstLessThanSecond) return true;
-  if (this.type === 'max' && firstLessThanSecond) return true;
+      comparison = this.__compareElements(parent, child),
+      firstLessThanSecond = comparison < 0;
+
+  if (comparison === 0) { 
+    return false;
+  }
+
+  if (this.type === 'min' && !firstLessThanSecond) { return true; }
+  if (this.type === 'max' && firstLessThanSecond) { return true; }
+
   return false;
 };

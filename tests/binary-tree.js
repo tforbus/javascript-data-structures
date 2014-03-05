@@ -2,16 +2,7 @@ module('binary search tree');
 
 /* Going to use this throughout tests */
 function treeCompare(el1, el2) {
-  var obj = {
-    GREATER_THAN: false,
-    EQUAL: false,
-    LESS_THAN: false
-  };
-
-  if (el1 < el2) obj.LESS_THAN = true;
-  else if (el1 == el2) obj.EQUAL = true;
-  else obj.GREATER_THAN = true;
-  return obj;
+  return el1 - el2;
 }
 
 test('size is empty on initialize', function (assert) {

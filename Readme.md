@@ -9,26 +9,23 @@ structures are:
 - Heap
 - BinarySearchTree
 
-If you plan on storing just numbers or strings in these, you won't need to 
+If you plan on storing just numbers in these, you won't need to 
 specify your own comparison function. Otherwise, you'll need to initialize the 
 data structure like this (though this example is intended to compare numbers)
 
 ```javascript
+/**
+ * compare returns a:
+ * negative - meaning el1 is less than el2
+ * 0 - meaning they are equal
+ * positive - meaning el1 is greater than el2
+ */
 var heap = new Heap({
     compare: function(el1, el2) {
-        var comparison = {
-            GREATER_THAN: false,
-            EQUAL: false,
-            LESS_THAN: false
-        };
-        if (el1 < el2) comparison.LESS_THAN = true;
-        else if (el1 > el2) comparison.GREATER_THAN = true;
-        else comparison.EQUAL = true;
-        return comparison;
+        return el1 - el2;
     }
 });
 ```
-If you're storing non-primitives, the compare() function is necessary so the 
+If you're storing non-numbers, the compare() function is necessary so the 
 data structure knows how to compare the data types stored within it.
-compare() must return an object with the properties GREATER_THAN, EQUAL 
-and LESS_THAN.
+compare() must return an numeric value.
