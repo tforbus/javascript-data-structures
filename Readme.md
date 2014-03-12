@@ -26,6 +26,16 @@ var heap = new Heap({
     }
 });
 ```
+
 If you're storing non-numbers, the compare() function is necessary so the 
 data structure knows how to compare the data types stored within it.
 compare() must return an numeric value.
+
+
+### Element comparisons
+If you want to implement a min heap instead of a max heap, or have your BST do things in 
+reverse, simply write your compare function backwards.
+```javascript
+// max heap
+function(a, b) { return b - a; }
+```
