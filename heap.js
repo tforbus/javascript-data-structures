@@ -28,13 +28,16 @@ Heap.prototype.push = function(data) {
   if (len === 1)
     return;
 
-  var cur, par;
-  for (cur = len - 1, par = this.__parentIndex(cur);
-    cur >= 0 && this.__compare(this.data[cur], this.data[par]) < 0;) {
-    this.__swapIndeces(cur, par);
-    cur = par;
-    par = this.__parentIndex(cur);
+  var current = len - 1,
+      parent = this.__parentIndex(current);
+
+  while (current >= 0 && this.__compare(this.data[current], this.data[parent]) < 0) {
+    this.__swapIndeces(current, parent);
+    current = parent;
+    parent = this.__parentIndex(current);
   }
+
+
 };
 
 
@@ -61,14 +64,14 @@ Heap.prototype.pop = function() {
     } else return kids.right;
   }
 
+  var parent = 0,
+      child = smallerChildIndex(parent);
 
-  for (var parentIndex = 0, childIndex = smallerChildIndex(parentIndex);
-      this.__compare(this.data[parentIndex], this.data[childIndex]) > 0;) {
-    this.__swapIndeces(parentIndex, childIndex);
-    parentIndex = childIndex;
-    childIndex = smallerChildIndex(parentIndex);
+  while (this.__compare(this.data[parent], this.data[child]) > 0) {
+    this.__swapIndeces(parent, child);
+    parent = child;
+    child = smallerChildIndex(parent);
   }
-
 
   return popped;
 };
